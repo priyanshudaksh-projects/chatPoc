@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
+import type { Node } from 'react';
 import XMPP from 'react-native-xmpp-z';
 const DOMAIN = "52.29.39.15";
 const SCHEMA = "ios";
@@ -36,48 +36,50 @@ const debug = require("@xmpp/debug");
 
 sendMessage = () => {
   const xmpp = client({
-    service: "wss://52.29.39.15:7443/ws/",
+    service: "ws://52.29.39.15:5280/xmpp-websocket/",
     domain: "52.29.39.15",
     resource: "android",
-    username: "admin",
-    password: "Gautam123#",
+    username: "satender",
+    password: "asdqwe123",
   });
 
-  debug(xmpp, true);
+  //debug(xmpp, true);
+  //xmpp.online("admin@52.29.39.15")
 
-xmpp.on("error", (err) => {
-  console.error(err);
-});
+  xmpp.on("error", (err) => {
+    console.error(err);
+  });
 
-xmpp.on("offline", () => {
-  console.log("offline");
-});
+  xmpp.on("offline", () => {
+    console.log("offline");
+  });
 
-xmpp.on("stanza", async (stanza) => {
-  if (stanza.is("message")) {
-    await xmpp.send(xml("presence", { type: "unavailable" }));
-    await xmpp.stop();
-  }
-});
+  xmpp.on("stanza", async (stanza) => {
 
-xmpp.on("online", async (address) => {
-  // Makes itself available
-  await xmpp.send(xml("presence"));
+    console.log('stanza ', stanza.root().toString())
+    
 
-  // Sends a chat message to itself
-  const message = xml(
-    "message",
-    { type: "chat", to: address },
-    xml("body", {}, "hello world"),
-  );
-  await xmpp.send(message);
-});
 
-xmpp.start().catch(console.error);
-  
+  });
+
+  xmpp.on("online", async (address) => {
+    console.log('Online')
+    const message = "Hello";
+    const recipients = ["satender@52.29.39.15"];
+    const stanzas = recipients.map((address) =>
+      xml("message", { to: address, type: "chat" }, xml("body", null, message)),
+    );
+    //console.log(stanzas)
+    //xmpp.send(...stanzas).catch(console.error);
+    console.log('completed')
+    return
+  });
+
+  xmpp.start().catch(console.error);
+
 };
-const Section = ({children, title}): Node => {
-  
+const Section = ({ children, title }): Node => {
+
 
   const isDarkMode = useColorScheme() === 'dark';
   return (
@@ -105,7 +107,7 @@ const Section = ({children, title}): Node => {
 };
 
 const App: () => Node = () => {
-  this.local = 'daksh'
+  //this.local = 'daksh'
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -114,7 +116,7 @@ const App: () => Node = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <Button onPress={()=>sendMessage()} title='Login and Message'></Button>
+      <Button onPress={() => sendMessage()} title='Login and Message'></Button>
     </SafeAreaView>
   );
 };
