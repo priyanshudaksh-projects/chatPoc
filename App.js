@@ -36,10 +36,10 @@ const debug = require("@xmpp/debug");
 
 sendMessage = () => {
   const xmpp = client({
-    service: "ws://52.29.39.15:5280/xmpp-websocket/",
-    domain: "52.29.39.15",
+    service: "ws://chat.acumencog.com:5280/xmpp-websocket/",
+    domain: "chat.acumencog.com",
     resource: "android",
-    username: "satender",
+    username: "satender123",
     password: "asdqwe123",
   });
 
@@ -56,23 +56,32 @@ sendMessage = () => {
 
   xmpp.on("stanza", async (stanza) => {
 
-    console.log('stanza ', stanza.root().toString())
+    console.log('stanza ', stanza.toString())
+    if (stanza.is("message")) {
+      await xmpp.send(xml("presence", { type: "unavailable" }));
+      await xmpp.stop();
+    }
     
 
 
   });
-
+  var user='priyanshu123@chat.acumencog.com'
   xmpp.on("online", async (address) => {
     console.log('Online')
-    const message = "Hello";
-    const recipients = ["satender@52.29.39.15"];
-    const stanzas = recipients.map((address) =>
-      xml("message", { to: address, type: "chat" }, xml("body", null, message)),
-    );
-    //console.log(stanzas)
-    //xmpp.send(...stanzas).catch(console.error);
+    console.log("online as", address.toString());
+    // Makes itself available
+  await xmpp.send(xml("presence"));
+
+  // Sends a chat message to itself
+  const message = xml(
+    "message",
+    { type: "chat", to: user },
+    xml("body", {}, "hello message"),
+  );
+    await xmpp.send(message);
+   // await xmpp.stop();
     console.log('completed')
-    return
+    return;
   });
 
   xmpp.start().catch(console.error);
