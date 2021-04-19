@@ -35,11 +35,12 @@ const { client, xml } = require("@xmpp/client");
 const debug = require("@xmpp/debug");
 
 sendMessage = () => {
+  //from
   const xmpp = client({
     service: "ws://chat.acumencog.com:5280/xmpp-websocket/",
     domain: "chat.acumencog.com",
     resource: "android",
-    username: "satender123",
+    username: "priyanshu123",
     password: "asdqwe123",
   });
 
@@ -55,17 +56,14 @@ sendMessage = () => {
   });
 
   xmpp.on("stanza", async (stanza) => {
-
     console.log('stanza ', stanza.toString())
     if (stanza.is("message")) {
       await xmpp.send(xml("presence", { type: "unavailable" }));
       await xmpp.stop();
     }
-    
-
-
   });
-  var user='priyanshu123@chat.acumencog.com'
+  //to
+  var user='shubhangi@chat.acumencog.com'
   xmpp.on("online", async (address) => {
     console.log('Online')
     console.log("online as", address.toString());
@@ -87,35 +85,9 @@ sendMessage = () => {
   xmpp.start().catch(console.error);
 
 };
-const Section = ({ children, title }): Node => {
 
 
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
+const App = () => {
   //this.local = 'daksh'
   const isDarkMode = useColorScheme() === 'dark';
 
