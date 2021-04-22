@@ -6,7 +6,7 @@ const WIDTH = Dimensions.get('screen').width
 const HEIGHT = Dimensions.get('screen').height
 
 
-export default function SenderChat(props) {
+export default  SenderChat =(props) =>{
     return (
         <View style={props.type == 'send' ? styles.containerLeft : styles.containerRight}>
             <Text style={props.type == 'send' ? styles.TimeTextLeft : styles.TimeTextRight}>{props.txt}  </Text>
