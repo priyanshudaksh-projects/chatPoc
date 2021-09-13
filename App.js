@@ -40,7 +40,7 @@ sendMessage = () => {
     service: "ws://chat.acumencog.com:5280/xmpp-websocket/",
     domain: "chat.acumencog.com",
     resource: "android",
-    username: "priyanshu123",
+    username: "priyanshu",
     password: "asdqwe123",
   });
 
